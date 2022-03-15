@@ -5,9 +5,27 @@
  * Learn more about Gradle by exploring our samples at https://docs.gradle.org/7.3.1/samples
  */
 
+
 plugins {
 	id 'com.github.ben-manes.versions' version '0.39.0'
+	id 'application'
 }
+
 
 group = 'hexlet.code'
 version = '1.0-SNAPSHOT'
+
+application {
+        mainClass = 'hexlet.code.App'
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(16)
+
+compileJava {
+    options.release = 16
+}
+
+
+repositories {
+    mavenCentral()
+}
