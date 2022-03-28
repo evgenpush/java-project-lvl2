@@ -40,7 +40,7 @@ class Differ {
         difJson.append("{\n");
         for (Map.Entry<String, Object> entry : difMap.entrySet()) {
             String key = entry.getKey();
-            difJson.append(" ");
+            difJson.append("  ");
             difJson.append(key.substring(key.length() - 1));
             difJson.append(" ");
             difJson.append(key.substring(0, key.length() - 2));
@@ -48,7 +48,7 @@ class Differ {
             difJson.append(entry.getValue().toString());
             difJson.append("\n");
         }
-        difJson.append("}\n");
+        difJson.append("}");
 
         return difJson.toString();
     }

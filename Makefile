@@ -9,3 +9,13 @@ check-updates:
 
 lint:
 	./gradlew checkstyleMain checkstyleTest
+
+test:
+	./gradlew test
+
+.PHONY: build
+
+build:
+	./gradlew clean install checkstyleMain checkstyleTest test
+
+
