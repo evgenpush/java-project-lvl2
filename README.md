@@ -5,6 +5,7 @@
 
 [![Github-actions](https://github.com/evgenpush/java-project-lvl2/actions/workflows/github-actions.yml/badge.svg)](https://github.com/evgenpush/java-project-lvl2/actions/workflows/github-actions.yml)
 
+<a href="https://codeclimate.com/github/evgenpush/java-project-lvl2/test_coverage"><img src="https://api.codeclimate.com/v1/badges/7fa9ef4c537ea4bdc49e/test_coverage" /></a>
 ---
 
 <a href="https://asciinema.org/a/Fiv4QxbjH7avCNILkzjkbYXRU" target="_blank"><img src="https://asciinema.org/a/Fiv4QxbjH7avCNILkzjkbYXRU.svg" width="400"/></a>
