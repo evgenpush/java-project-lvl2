@@ -10,6 +10,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 
 class Differ {
+
     public static String generate(String file1, String file2, String format) throws Exception {
 
         Map<String, Object> map1 = getData(file1);
@@ -40,13 +41,15 @@ class Differ {
     }
 
     public static Map getData(String file) throws Exception {
-        String json = "json";
-        String yaml = "yaml";
+        final String json = "json";
+        final String yaml = "yaml";
+        final int lenExtension = 4;
+
 
         Path path = Paths.get(file);
         String content = null;
         // System.out.println(path);
-        String ext = path.toString().substring(path.toString().length() - 4);
+        String ext = path.toString().substring(path.toString().length() - lenExtension);
 
         content = Files.readString(path);
         if (ext.equals(json)) {
@@ -61,6 +64,6 @@ class Differ {
     }
 
     public static boolean equals(Object a, Object b) {
-    return (a == b) || (a != null && a.equals(b));
-}
+        return (a == b) || (a != null && a.equals(b));
+    }
 }

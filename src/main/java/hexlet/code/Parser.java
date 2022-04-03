@@ -1,8 +1,5 @@
 package hexlet.code;
 import java.util.Map;
-import java.util.TreeMap;
-import com.fasterxml.jackson.core.type.TypeReference;
-
 
 class Parser {
     private static String defaultFormat = "stylish";
@@ -70,7 +67,7 @@ class Parser {
                 } else if (flag.equals(updateTo)) {
                     difJson.append(" to ");
 
-                        if (entry.getValue() != null) {
+                    if (entry.getValue() != null) {
                         difJson.append(entry.getValue().toString());
                     } else {
                         difJson.append("null");
