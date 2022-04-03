@@ -6,10 +6,11 @@ import java.util.Map;
 import java.util.TreeMap;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 
 class Differ {
-    public static String generate(String file1, String file2) throws Exception {
+    public static String generate(String file1, String file2, String format) throws Exception {
 
         Map<String, Object> map1 = getData(file1);
         Map<String, Object> map2 = getData(file2);
@@ -18,7 +19,7 @@ class Differ {
         for (Map.Entry<String, Object> entry : map1.entrySet()) {
             String key1 = entry.getKey();
             if (map2.containsKey(key1)) {
-                if (map2.get(key1).equals(entry.getValue())) {
+                if (equals(map2.get(key1), entry.getValue())) {
                     difMap.put(key1 + "  ", entry.getValue());
                 } else {
                     difMap.put(key1 + "1-", entry.getValue());
@@ -35,36 +36,31 @@ class Differ {
             }
         }
 
-        StringBuilder difJson = new StringBuilder();
-
-        difJson.append("{\n");
-        for (Map.Entry<String, Object> entry : difMap.entrySet()) {
-            String key = entry.getKey();
-            difJson.append("  ");
-            difJson.append(key.substring(key.length() - 1));
-            difJson.append(" ");
-            difJson.append(key.substring(0, key.length() - 2));
-            difJson.append(": ");
-            difJson.append(entry.getValue().toString());
-            difJson.append("\n");
-        }
-        difJson.append("}");
-
-        return difJson.toString();
+        return Parser.parse(difMap, format);
     }
 
-    public static Map parse(String file) throws Exception  {
+    public static Map getData(String file) throws Exception {
+        String json = "json";
+        String yaml = "yaml";
 
         Path path = Paths.get(file);
         String content = null;
+        // System.out.println(path);
+        String ext = path.toString().substring(path.toString().length() - 4);
 
         content = Files.readString(path);
-        ObjectMapper objectMapper = new ObjectMapper();
+        if (ext.equals(json)) {
 
-        return objectMapper.readValue(content, new TypeReference<Map<String, Object>>() { });
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.readValue(content, new TypeReference<Map<String, Object>>() { });
+        } else if (ext.equals(yaml)) {
+            ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+            return mapper.readValue(content, new TypeReference<Map<String, Object>>() { });
+        }
+        return null;
     }
 
-    public static Map getData(String content) throws Exception {
-        return parse(content);
-    }
+    public static boolean equals(Object a, Object b) {
+    return (a == b) || (a != null && a.equals(b));
+}
 }

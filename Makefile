@@ -17,5 +17,3 @@ test:
 
 build:
 	./gradlew clean install checkstyleMain checkstyleTest test
-
-

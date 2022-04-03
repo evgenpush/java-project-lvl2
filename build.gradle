@@ -10,6 +10,7 @@ plugins {
 	id 'com.github.ben-manes.versions' version '0.39.0'
 	id 'application'
 	id 'checkstyle'
+	id 'jacoco'
 }
 
 
@@ -34,10 +35,10 @@ repositories {
 dependencies {
     implementation 'info.picocli:picocli:4.6.3'
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.6'
+	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.11.2'
 	testImplementation 'org.junit.jupiter:junit-jupiter:5.7.1'
 	testCompileOnly 'junit:junit:4.13'
 	testRuntimeOnly 'org.junit.vintage:junit-vintage-engine'
-
 }
 
 test {

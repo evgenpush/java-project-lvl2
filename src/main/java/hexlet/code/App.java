@@ -11,7 +11,7 @@ import java.util.concurrent.Callable;
 class App implements Callable<Integer> {
 
     @Option(names = {"-f", "--format"}, description = "output format [default: stylish]")
-    private String format = "my format";
+    private String format = "stylish";
 
     @Parameters(paramLabel = "filepatch1", description = "patch to first file")
     private String file1;
@@ -21,8 +21,7 @@ class App implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-
-        String test = Differ.generate(file1, file2);
+        String test = Differ.generate(file1, file2, format);
 
         System.out.println(test);
         return 0;
