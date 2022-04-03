@@ -1,9 +1,7 @@
 package hexlet.code;
 
 import org.junit.jupiter.api.Test;
-// import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-// import static org.assertj.core.api.Assertions.assertThat;
 
 class DifferTest {
 

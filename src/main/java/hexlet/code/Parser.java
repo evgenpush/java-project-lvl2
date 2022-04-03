@@ -48,17 +48,33 @@ class Parser {
                     difJson.append("Property '");
                     difJson.append(key.substring(0, key.length() - 2));
                     difJson.append("' was added with value: '");
-                    difJson.append(entry.getValue().toString());
+
+                    if (entry.getValue() != null) {
+                        difJson.append(entry.getValue().toString());
+                    } else {
+                        difJson.append("null");
+                    }
+
                     difJson.append("'");
                     difJson.append("\n");
                 } else if (flag.equals(updateFrom)) {
                     difJson.append("Property '");
                     difJson.append(key.substring(0, key.length() - 2));
                     difJson.append("' was updated. From ");
-                    difJson.append(entry.getValue().toString());
+
+                    if (entry.getValue() != null) {
+                        difJson.append(entry.getValue().toString());
+                    } else {
+                        difJson.append("null");
+                    }
                 } else if (flag.equals(updateTo)) {
                     difJson.append(" to ");
-                    difJson.append(entry.getValue().toString());
+
+                        if (entry.getValue() != null) {
+                        difJson.append(entry.getValue().toString());
+                    } else {
+                        difJson.append("null");
+                    }
                     difJson.append("\n");
                 }
             }
