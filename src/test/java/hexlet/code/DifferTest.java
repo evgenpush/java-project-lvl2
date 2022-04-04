@@ -13,6 +13,7 @@ class DifferTest {
         var file4 = "file4.yaml";
 
         var format = "stylish";
+        var format2 = "plain";
 
         String result = "{"
             + "\n    chars1: [a, b, c]"
@@ -40,6 +41,20 @@ class DifferTest {
             + "\n  + setting3: none"
             + "\n}";
 
+        String result2 = "Property 'chars2' was updated. From [complex value] to false"
+            + "\nProperty 'checked' was updated. From false to true"
+            + "\nProperty 'default' was updated. From null to [complex value]"
+            + "\nProperty 'id' was updated. From 45 to null"
+            + "\nProperty 'key1' was removed"
+            + "\nProperty 'key2' was added with value: 'value2'"
+            + "\nProperty 'numbers2' was updated. From [complex value] to [complex value]"
+            + "\nProperty 'numbers3' was removed"
+            + "\nProperty 'numbers4' was added with value: [complex value]"
+            + "\nProperty 'obj1' was added with value: [complex value]"
+            + "\nProperty 'setting1' was updated. From 'Some value' to 'Another value'"
+            + "\nProperty 'setting2' was updated. From 200 to 300"
+            + "\nProperty 'setting3' was updated. From true to 'none'";
+
         String plainResult = "Property 'follow' was removed\n"
             + "Property 'proxy'\n"
             + "Property 'timeout' was update. From 50 to 20\n"
@@ -55,6 +70,9 @@ class DifferTest {
 
         String testResult3 = Differ.generate(file1, file4, format);
         assertEquals(result, testResult3);
+
+        String testResult4 = Differ.generate(file3, file4, format2);
+        assertEquals(result2, testResult4);
 
     }
 }
