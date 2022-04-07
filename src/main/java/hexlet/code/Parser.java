@@ -1,81 +1,31 @@
 package hexlet.code;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Map;
-import java.util.Collection;
-import java.util.AbstractMap;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 class Parser {
-    private static String defaultFormat = "stylish";
-    private static String plainFormat = "plain";
-    private static String add = " +";
-    private static String remove = " -";
-    private static String updateFrom = "1-";
-    private static String updateTo = "2+";
 
-    public static String parse(Map<String, Object> difMap, String format) throws Exception  {
+    public static Map<String, Object> parse(Path path) throws Exception  {
+        final String json = "json";
+        final String yaml = "yaml";
+        final int lenExtension = 4;
 
-        StringBuilder difJson = new StringBuilder();
-        if (format.equals(defaultFormat)) {
+        String content;
+        String ext = path.toString().substring(path.toString().length() - lenExtension);
 
-            difJson.append("{\n");
+        content = Files.readString(path);
+        if (ext.equals(json)) {
 
-            for (Map.Entry<String, Object> entry : difMap.entrySet()) {
-                String key = entry.getKey();
-                difJson.append("  ");
-                difJson.append(key.substring(key.length() - 1));
-                difJson.append(" ");
-                difJson.append(key.substring(0, key.length() - 2));
-                difJson.append(": ");
-                if (entry.getValue() != null) {
-                    difJson.append(entry.getValue().toString());
-                } else {
-                    difJson.append("null");
-                }
-                difJson.append("\n");
-            }
-            difJson.append("}");
-        } else if (format.equals(plainFormat)) {
-
-            for (Map.Entry<String, Object> entry : difMap.entrySet()) {
-                String key = entry.getKey();
-                Object value = entry.getValue();
-                if (value != null) {
-                    if (value instanceof String) {
-                        value = "'" + value.toString() + "'";
-                    } else if (value instanceof Collection || value instanceof AbstractMap) {
-                        value = "[complex value]";
-                    } else {
-                        value = value.toString();
-                    }
-
-                }
-
-                String flag = key.substring(key.length() - 2);
-
-                if (flag.equals(remove)) {
-                    difJson.append("Property '");
-                    difJson.append(key.substring(0, key.length() - 2));
-                    difJson.append("' was removed");
-                    difJson.append("\n");
-                } else if (flag.equals(add)) {
-                    difJson.append("Property '");
-                    difJson.append(key.substring(0, key.length() - 2));
-                    difJson.append("' was added with value: ");
-                    difJson.append(value);
-                    difJson.append("\n");
-                } else if (flag.equals(updateFrom)) {
-                    difJson.append("Property '");
-                    difJson.append(key.substring(0, key.length() - 2));
-                    difJson.append("' was updated. From ");
-                    difJson.append(value);
-                } else if (flag.equals(updateTo)) {
-                    difJson.append(" to ");
-                    difJson.append(value);
-                    difJson.append("\n");
-                }
-            }
-            difJson = difJson.delete(difJson.length() - 1, difJson.length());
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.readValue(content, new TypeReference<Map<String, Object>>() { });
+        } else if (ext.equals(yaml)) {
+            ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+            return mapper.readValue(content, new TypeReference<Map<String, Object>>() { });
         }
-
-        return difJson.toString();
+        return null;
     }
 }
