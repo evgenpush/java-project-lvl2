@@ -14,6 +14,7 @@ class DifferTest {
 
         var format = "stylish";
         var format2 = "plain";
+        var format3 = "json";
 
         String result = "{"
             + "\n    chars1: [a, b, c]"
@@ -55,10 +56,21 @@ class DifferTest {
             + "\nProperty 'setting2' was updated. From 200 to 300"
             + "\nProperty 'setting3' was updated. From true to 'none'";
 
-        String plainResult = "Property 'follow' was removed\n"
-            + "Property 'proxy'\n"
-            + "Property 'timeout' was update. From 50 to 20\n"
-            + "Property 'verbose' was added with value: 'true'\n";
+        String jsonResult = "{\"newValue\":[\"a\",\"b\",\"c\"],\"oldValue\":[\"a\",\"b\",\"c\"],\"key\":\"chars1\","
+                + "\"status\":\"unchanged\"}{\"newValue\":false,\"oldValue\":[\"d\",\"e\",\"f\"],\"key\":\"chars2\",\""
+                + "status\":\"updated\"}{\"newValue\":true,\"oldValue\":false,\"key\":\"checked\",\"status\":\""
+                + "updated\"}{\"newValue\":[\"value1\",\"value2\"],\"oldValue\":null,\"key\":\"default\",\"status\""
+                + ":\"updated\"}{\"newValue\":null,\"oldValue\":45,\"key\":\"id\",\"status\":\"updated\"}{\"newValue\""
+                + ":null,\"oldValue\":\"value1\",\"key\":\"key1\",\"status\":\"removed\"}{\"newValue\":\"value2\",\""
+                + "oldValue\":null,\"key\":\"key2\",\"status\":\"added\"}{\"newValue\":[1,2,3,4],\"oldValue\":[1,2,3,4]"
+                + ",\"key\":\"numbers1\",\"status\":\"unchanged\"}{\"newValue\":[22,33,44,55],\"oldValue\":[2,3,4,5],"
+                + "\"key\":\"numbers2\",\"status\":\"updated\"}{\"newValue\":null,\"oldValue\":[3,4,5],\"key\":\""
+                + "numbers3\",\"status\":\"removed\"}{\"newValue\":[4,5,6],\"oldValue\":null,\"key\":\"numbers4\","
+                + "\"status\":\"added\"}{\"newValue\":{\"nestedKey\":\"value\",\"isNested\":true},\"oldValue\":null,"
+                + "\"key\":\"obj1\",\"status\":\"added\"}{\"newValue\":\"Another value\",\"oldValue\":\"Some value\""
+                + ",\"key\":\"setting1\",\"status\":\"updated\"}{\"newValue\":300,\"oldValue\":200,\"key\":\"setting2"
+                + "\",\"status\":\"updated\"}{\"newValue\":\"none\",\"oldValue\":true,\"key\":\"setting3\",\"status\""
+                + ":\"updated\"}";
 
         String testResult = Differ.generate(file1, file2, format);
         assertEquals(result, testResult);
@@ -73,6 +85,9 @@ class DifferTest {
 
         String testResult4 = Differ.generate(file3, file4, format2);
         assertEquals(result2, testResult4);
+
+        String testResult5 = Differ.generate(file3, file4, format3);
+        assertEquals(jsonResult, testResult5);
 
     }
 }

@@ -18,7 +18,6 @@ public class JsonFormater {
         for (Map<String, Object> data : difData) {
             mapper.writeValue(writer, data);
         }
-//        mapper.writeValue(writer, difData);
         return writer.toString();
     }
 }
