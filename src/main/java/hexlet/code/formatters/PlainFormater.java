@@ -11,37 +11,37 @@ public class PlainFormater {
 
     public static String get(List<Map<String, Object>> difData) {
 
-        StringBuilder difJson = new StringBuilder();
+        StringBuilder plainData = new StringBuilder();
 
         for (Map<String, Object> data : difData) {
             String oldValue = getValue(data.get(Differ.OLD_VALUE));
             String newValue = getValue(data.get(Differ.NEW_VALUE));
-            String key = (String) data.get("key");
+            String key = (String) data.get(Differ.KEY);
 
             if (data.get(Differ.STATUS).equals(Differ.ADDED)) {
-                difJson.append("Property '");
-                difJson.append(key);
-                difJson.append("' was added with value: ");
-                difJson.append(newValue);
-                difJson.append("\n");
+                plainData.append("Property '");
+                plainData.append(key);
+                plainData.append("' was added with value: ");
+                plainData.append(newValue);
+                plainData.append("\n");
             } else if (data.get("status").equals(Differ.REMOVED)) {
-                difJson.append("Property '");
-                difJson.append(key);
-                difJson.append("' was removed");
-                difJson.append("\n");
+                plainData.append("Property '");
+                plainData.append(key);
+                plainData.append("' was removed");
+                plainData.append("\n");
             } else if (data.get("status").equals(Differ.UPDATED)) {
-                difJson.append("Property '");
-                difJson.append(key);
-                difJson.append("' was updated. From ");
-                difJson.append(oldValue);
-                difJson.append(" to ");
-                difJson.append(newValue);
-                difJson.append("\n");
+                plainData.append("Property '");
+                plainData.append(key);
+                plainData.append("' was updated. From ");
+                plainData.append(oldValue);
+                plainData.append(" to ");
+                plainData.append(newValue);
+                plainData.append("\n");
             }
         }
 
-        difJson = difJson.delete(difJson.length() - 1, difJson.length());
-        return difJson.toString();
+        plainData = plainData.delete(plainData.length() - 1, plainData.length());
+        return plainData.toString();
     }
 
     public static String getValue(Object value) {

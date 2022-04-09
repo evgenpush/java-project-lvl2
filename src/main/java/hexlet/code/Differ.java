@@ -16,6 +16,7 @@ public class Differ {
     public static final String OLD_VALUE = "oldValue";
     public static final String NEW_VALUE = "newValue";
     public static final String STATUS = "status";
+    public static final String KEY = "key";
 
     public static String generate(String file1, String file2, String format) throws Exception {
 
@@ -29,7 +30,7 @@ public class Differ {
 
         for (String key : keys) {
             Map<String, Object> data = new HashMap<>();
-            data.put("key", key);
+            data.put(KEY, key);
             data.put(OLD_VALUE, map1.get(key));
             data.put(NEW_VALUE, map2.get(key));
             String status;
