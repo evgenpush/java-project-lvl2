@@ -21,12 +21,12 @@ application {
         mainClass = 'hexlet.code.App'
 }
 
-/*java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+//java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
-compileJava {
-    options.release = 17
-}
-*/
+//compileJava {
+//    options.release = 17
+//}
+
 
 repositories {
     mavenCentral()
@@ -49,4 +49,16 @@ jacocoTestReport {
 	reports {
 		xml.required = true
 	}
+}
+
+jacoco {
+	toolVersion = "0.8.7"
+	reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+}
+
+test {
+	finalizedBy jacocoTestReport // report is always generated after tests run
+}
+jacocoTestReport {
+	dependsOn test // tests are required to run before generating the report
 }

@@ -7,12 +7,12 @@ class DifferTest {
 
     @Test
     void testDiffer() throws Exception {
-        var file1 = "file3.json";
-        var file2 = "file4.json";
-        var file3 = "file3.yaml";
-        var file4 = "file4.yaml";
+        var file1 = "src/test/resources/file3.json";
+        var file2 = "src/test/resources/file4.json";
+        var file3 = "src/test/resources/file3.yaml";
+        var file4 = "src/test/resources/file4.yaml";
 
-        var format = "stylish";
+        var format1 = "stylish";
         var format2 = "plain";
         var format3 = "json";
 
@@ -72,15 +72,15 @@ class DifferTest {
                 + "\",\"status\":\"updated\"}{\"newValue\":\"none\",\"oldValue\":true,\"key\":\"setting3\",\"status\""
                 + ":\"updated\"}";
 
-        String testResult = Differ.generate(file1, file2, format);
+        String testResult = Differ.generate(file1, file2, format1);
         assertEquals(result, testResult);
 
 
 
-        String testResult2 = Differ.generate(file3, file4, format);
+        String testResult2 = Differ.generate(file3, file4, format1);
         assertEquals(result, testResult2);
 
-        String testResult3 = Differ.generate(file1, file4, format);
+        String testResult3 = Differ.generate(file1, file4, format1);
         assertEquals(result, testResult3);
 
         String testResult4 = Differ.generate(file3, file4, format2);

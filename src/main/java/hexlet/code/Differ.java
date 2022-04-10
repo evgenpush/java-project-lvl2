@@ -56,9 +56,7 @@ public class Differ {
 
     public static Map getData(String file) throws Exception {
 
-        final String dir = "src/main/resources/";
-        Path path = Paths.get(dir, file);
-
+        Path path = Paths.get(file);
         return Parser.parse(path);
     }
 
