@@ -17,3 +17,6 @@ test:
 
 build:
 	./gradlew clean install checkstyleMain checkstyleTest test
+
+report:
+	./gradlew jacocoTestReport
