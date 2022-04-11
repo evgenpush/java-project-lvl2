@@ -11,6 +11,10 @@ class DifferTest {
         var file2 = "src/test/resources/file4.json";
         var file3 = "src/test/resources/file3.yaml";
         var file4 = "src/test/resources/file4.yaml";
+        var file5 = "src/test/resources/file1.json";
+        var file6 = "src/test/resources/file2.json";
+        var file7 = "src/test/resources/file1.yaml";
+        var file8 = "src/test/resources/file2.yaml";
 
         var format1 = "stylish";
         var format2 = "plain";
@@ -91,6 +95,23 @@ class DifferTest {
         assertEquals(jsonResult, testResult6);
 
 
+//        String testResult7 = Differ.generate(file5, file6, format1);
+//        assertEquals(result, testResult7);
+//
+//        String testResult8 = Differ.generate(file5, file6, format2);
+//        assertEquals(result2, testResult8);
+//
+//        String testResult9 = Differ.generate(file7, file8, format1);
+//        assertEquals(result, testResult9);
+//
+//        String testResult10 = Differ.generate(file7, file8, format2);
+//        assertEquals(result2, testResult10);
+//
+//        String testResult11 = Differ.generate(file7, file8, format3);
+//        assertEquals(jsonResult, testResult11);
+//
+//        String testResult12 = Differ.generate(file5, file6, format3);
+//        assertEquals(jsonResult, testResult12);
 
     }
 }
