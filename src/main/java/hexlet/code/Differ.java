@@ -51,6 +51,10 @@ public class Differ {
             difData.add(data);
         }
 
+//        for (Map<String, Object> data : difData) {
+//            System.out.println(data);
+//        }
+
         return Formatter.make(difData, format);
     }
 

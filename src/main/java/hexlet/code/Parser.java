@@ -11,7 +11,7 @@ class Parser {
 
     public static Map<String, Object> parse(Path path) throws Exception  {
         final String json = "json";
-        final String yaml = "yaml";
+        final String yaml = ".yml";
         final int lenExtension = 4;
 
         String content;
