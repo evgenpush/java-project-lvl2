@@ -9,12 +9,12 @@ class DifferTest {
     void testDiffer() throws Exception {
         var file1 = "src/test/resources/file3.json";
         var file2 = "src/test/resources/file4.json";
-        var file3 = "src/test/resources/file3.yaml";
-        var file4 = "src/test/resources/file4.yaml";
+        var file3 = "src/test/resources/file3.yml";
+        var file4 = "src/test/resources/file4.yml";
         var file5 = "src/test/resources/file1.json";
         var file6 = "src/test/resources/file2.json";
-        var file7 = "src/test/resources/file1.yaml";
-        var file8 = "src/test/resources/file2.yaml";
+        var file7 = "src/test/resources/file1.yml";
+        var file8 = "src/test/resources/file2.yml";
 
         var format1 = "stylish";
         var format2 = "plain";
@@ -46,6 +46,16 @@ class DifferTest {
             + "\n  + setting3: none"
             + "\n}";
 
+        String result3 = "{"
+                + "\n  - follow: false"
+                + "\n    host: hexlet.io"
+                + "\n  - proxy: 123.234.53.22"
+                + "\n  - timeout: 50"
+                + "\n  + timeout: 20"
+                + "\n  + verbose: true"
+                + "\n}";
+
+
         String result2 = "Property 'chars2' was updated. From [complex value] to false"
             + "\nProperty 'checked' was updated. From false to true"
             + "\nProperty 'default' was updated. From null to [complex value]"
@@ -76,16 +86,16 @@ class DifferTest {
                 + "\",\"status\":\"updated\"}{\"newValue\":\"none\",\"oldValue\":true,\"key\":\"setting3\",\"status\""
                 + ":\"updated\"}";
 
-        String testResult = Differ.generate(file3, file4, format1);
+        String testResult = Differ.generate(file1, file2, format1);
         assertEquals(result, testResult);
 
-        String testResult2 = Differ.generate(file3, file4, format2);
+        String testResult2 = Differ.generate(file1, file2, format2);
         assertEquals(result2, testResult2);
 
-        String testResult3 = Differ.generate(file3, file4, format3);
+        String testResult3 = Differ.generate(file1, file2, format3);
         assertEquals(jsonResult, testResult3);
 
-        String testResult4 = Differ.generate(file1, file2, format1);
+        String testResult4 = Differ.generate(file3, file4, format1);
         assertEquals(result, testResult4);
 
         String testResult5 = Differ.generate(file3, file4, format2);
@@ -94,24 +104,12 @@ class DifferTest {
         String testResult6 = Differ.generate(file3, file4, format3);
         assertEquals(jsonResult, testResult6);
 
+        String testResult7 = Differ.generate(file5, file6, format1);
+        assertEquals(result3, testResult7);
 
-//        String testResult7 = Differ.generate(file5, file6, format1);
-//        assertEquals(result, testResult7);
-//
-//        String testResult8 = Differ.generate(file5, file6, format2);
-//        assertEquals(result2, testResult8);
-//
-//        String testResult9 = Differ.generate(file7, file8, format1);
-//        assertEquals(result, testResult9);
-//
-//        String testResult10 = Differ.generate(file7, file8, format2);
-//        assertEquals(result2, testResult10);
-//
-//        String testResult11 = Differ.generate(file7, file8, format3);
-//        assertEquals(jsonResult, testResult11);
-//
-//        String testResult12 = Differ.generate(file5, file6, format3);
-//        assertEquals(jsonResult, testResult12);
+        String testResult8 = Differ.generate(file7, file8, format1);
+        assertEquals(result3, testResult8);
+
 
     }
 }
