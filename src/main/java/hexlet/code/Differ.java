@@ -17,6 +17,11 @@ public class Differ {
     public static final String NEW_VALUE = "newValue";
     public static final String STATUS = "status";
     public static final String KEY = "key";
+    public static final String DEFAULT_FORMAT = "stylish";
+
+    public  static String generate(String file1, String file2) throws Exception {
+        return Differ.generate(file1, file2, DEFAULT_FORMAT);
+    }
 
     public static String generate(String file1, String file2, String format) throws Exception {
 
