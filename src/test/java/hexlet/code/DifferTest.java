@@ -34,7 +34,7 @@ class DifferTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {".json", ".yml"} )
+    @ValueSource(strings = {".json", ".yml"})
     void testDiffer(String ext) throws Exception {
         String path1 = "src/test/resources/file3";
         String path2 = "src/test/resources/file4";
