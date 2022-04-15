@@ -1,12 +1,12 @@
 package hexlet.code;
+
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+
 import java.util.List;
-import java.util.HashMap;
+
 
 public class Differ {
     public static final String UNCHANGED = "unchanged";
@@ -27,49 +27,22 @@ public class Differ {
 
         Map<String, Object> map1 = getData(file1);
         Map<String, Object> map2 = getData(file2);
-        List<Map<String, Object>> difData = new ArrayList<>();
-        Set<String> keys = new TreeSet<>();
 
-        keys.addAll(map1.keySet());
-        keys.addAll(map2.keySet());
-
-        for (String key : keys) {
-            Map<String, Object> data = new HashMap<>();
-            data.put(KEY, key);
-            data.put(OLD_VALUE, map1.get(key));
-            data.put(NEW_VALUE, map2.get(key));
-            String status;
-            if (map1.containsKey(key)) {
-                if (map2.containsKey(key)) {
-                    if (equals(map1.get(key), map2.get(key))) {
-                        status = UNCHANGED;
-                    } else {
-                        status = UPDATED;
-                    }
-                } else {
-                    status = REMOVED;
-                }
-            } else {
-                status = ADDED;
-            }
-            data.put(STATUS, status);
-            difData.add(data);
-        }
-
-//        for (Map<String, Object> data : difData) {
-//            System.out.println(data);
-//        }
+        List<Map<String, Object>> difData = Tree.build(map1, map2);
 
         return Formatter.make(difData, format);
     }
 
     public static Map getData(String file) throws Exception {
-
+        final int lenExtension = 4;
         Path path = Paths.get(file);
-        return Parser.parse(path);
+
+        String content;
+        String ext = path.toString().substring(path.toString().length() - lenExtension);
+
+        content = Files.readString(path);
+        return Parser.parse(content, ext);
     }
 
-    public static boolean equals(Object a, Object b) {
-        return (a == b) || (a != null && a.equals(b));
-    }
+
 }

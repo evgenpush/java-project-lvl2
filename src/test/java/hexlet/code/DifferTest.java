@@ -1,115 +1,59 @@
 package hexlet.code;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DifferTest {
+    private static String resultJson;
+    private static String resultPlain;
+    private static String resultStylish;
 
-    @Test
-    void testDiffer() throws Exception {
-        var file1 = "src/test/resources/file3.json";
-        var file2 = "src/test/resources/file4.json";
-        var file3 = "src/test/resources/file3.yml";
-        var file4 = "src/test/resources/file4.yml";
-        var file5 = "src/test/resources/file1.json";
-        var file6 = "src/test/resources/file2.json";
-        var file7 = "src/test/resources/file1.yml";
-        var file8 = "src/test/resources/file2.yml";
+    @BeforeAll
+    public static void init() {
+        resultJson = "json";
+        resultPlain = "plain";
+        resultStylish = "stylish";
+    }
 
-        var format1 = "stylish";
-        var format2 = "plain";
-        var format3 = "json";
+    public String getFile(String file) {
+        Path path = Paths.get(file);
+        try {
+            return Files.readString(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-        String result = "{"
-            + "\n    chars1: [a, b, c]"
-            + "\n  - chars2: [d, e, f]"
-            + "\n  + chars2: false"
-            + "\n  - checked: false"
-            + "\n  + checked: true"
-            + "\n  - default: null"
-            + "\n  + default: [value1, value2]"
-            + "\n  - id: 45"
-            + "\n  + id: null"
-            + "\n  - key1: value1"
-            + "\n  + key2: value2"
-            + "\n    numbers1: [1, 2, 3, 4]"
-            + "\n  - numbers2: [2, 3, 4, 5]"
-            + "\n  + numbers2: [22, 33, 44, 55]"
-            + "\n  - numbers3: [3, 4, 5]"
-            + "\n  + numbers4: [4, 5, 6]"
-            + "\n  + obj1: {nestedKey=value, isNested=true}"
-            + "\n  - setting1: Some value"
-            + "\n  + setting1: Another value"
-            + "\n  - setting2: 200"
-            + "\n  + setting2: 300"
-            + "\n  - setting3: true"
-            + "\n  + setting3: none"
-            + "\n}";
+    @ParameterizedTest
+    @ValueSource(strings = {".json", ".yml"} )
+    void testDiffer(String ext) throws Exception {
+        String path1 = "src/test/resources/file3";
+        String path2 = "src/test/resources/file4";
 
-        String result3 = "{"
-                + "\n  - follow: false"
-                + "\n    host: hexlet.io"
-                + "\n  - proxy: 123.234.53.22"
-                + "\n  - timeout: 50"
-                + "\n  + timeout: 20"
-                + "\n  + verbose: true"
-                + "\n}";
+        String result1 = getFile("src/test/resources/resultStylish.txt");
+        String result2 = getFile("src/test/resources/resultPlain.txt");
+        String result3 = getFile("src/test/resources/resultJson.txt");
 
 
-        String result2 = "Property 'chars2' was updated. From [complex value] to false"
-            + "\nProperty 'checked' was updated. From false to true"
-            + "\nProperty 'default' was updated. From null to [complex value]"
-            + "\nProperty 'id' was updated. From 45 to null"
-            + "\nProperty 'key1' was removed"
-            + "\nProperty 'key2' was added with value: 'value2'"
-            + "\nProperty 'numbers2' was updated. From [complex value] to [complex value]"
-            + "\nProperty 'numbers3' was removed"
-            + "\nProperty 'numbers4' was added with value: [complex value]"
-            + "\nProperty 'obj1' was added with value: [complex value]"
-            + "\nProperty 'setting1' was updated. From 'Some value' to 'Another value'"
-            + "\nProperty 'setting2' was updated. From 200 to 300"
-            + "\nProperty 'setting3' was updated. From true to 'none'";
+        String testResult1 = Differ.generate(path1 + ext, path2 + ext, resultStylish);
+        assertEquals(result1, testResult1);
 
-        String jsonResult = "{\"newValue\":[\"a\",\"b\",\"c\"],\"oldValue\":[\"a\",\"b\",\"c\"],\"key\":\"chars1\","
-                + "\"status\":\"unchanged\"}{\"newValue\":false,\"oldValue\":[\"d\",\"e\",\"f\"],\"key\":\"chars2\",\""
-                + "status\":\"updated\"}{\"newValue\":true,\"oldValue\":false,\"key\":\"checked\",\"status\":\""
-                + "updated\"}{\"newValue\":[\"value1\",\"value2\"],\"oldValue\":null,\"key\":\"default\",\"status\""
-                + ":\"updated\"}{\"newValue\":null,\"oldValue\":45,\"key\":\"id\",\"status\":\"updated\"}{\"newValue\""
-                + ":null,\"oldValue\":\"value1\",\"key\":\"key1\",\"status\":\"removed\"}{\"newValue\":\"value2\",\""
-                + "oldValue\":null,\"key\":\"key2\",\"status\":\"added\"}{\"newValue\":[1,2,3,4],\"oldValue\":[1,2,3,4]"
-                + ",\"key\":\"numbers1\",\"status\":\"unchanged\"}{\"newValue\":[22,33,44,55],\"oldValue\":[2,3,4,5],"
-                + "\"key\":\"numbers2\",\"status\":\"updated\"}{\"newValue\":null,\"oldValue\":[3,4,5],\"key\":\""
-                + "numbers3\",\"status\":\"removed\"}{\"newValue\":[4,5,6],\"oldValue\":null,\"key\":\"numbers4\","
-                + "\"status\":\"added\"}{\"newValue\":{\"nestedKey\":\"value\",\"isNested\":true},\"oldValue\":null,"
-                + "\"key\":\"obj1\",\"status\":\"added\"}{\"newValue\":\"Another value\",\"oldValue\":\"Some value\""
-                + ",\"key\":\"setting1\",\"status\":\"updated\"}{\"newValue\":300,\"oldValue\":200,\"key\":\"setting2"
-                + "\",\"status\":\"updated\"}{\"newValue\":\"none\",\"oldValue\":true,\"key\":\"setting3\",\"status\""
-                + ":\"updated\"}";
-
-        String testResult = Differ.generate(file1, file2, format1);
-        assertEquals(result, testResult);
-
-        String testResult2 = Differ.generate(file1, file2, format2);
+        String testResult2 = Differ.generate(path1 + ext, path2 + ext, resultPlain);
         assertEquals(result2, testResult2);
 
-        String testResult3 = Differ.generate(file1, file2, format3);
-        assertEquals(jsonResult, testResult3);
-
-        String testResult4 = Differ.generate(file3, file4, format1);
-        assertEquals(result, testResult4);
-
-        String testResult5 = Differ.generate(file3, file4, format2);
-        assertEquals(result2, testResult5);
-
-        String testResult6 = Differ.generate(file3, file4, format3);
-        assertEquals(jsonResult, testResult6);
-
-        String testResult7 = Differ.generate(file5, file6, format1);
-        assertEquals(result3, testResult7);
-
-        String testResult8 = Differ.generate(file7, file8, format1);
-        assertEquals(result3, testResult8);
-
+        String testResult3 = Differ.generate(path1 + ext, path2 + ext, resultJson);
+        assertEquals(result3, testResult3);
 
     }
+
+
 }

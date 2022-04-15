@@ -20,8 +20,14 @@ class App implements Callable<Integer> {
     private String file2;
 
     @Override
-    public Integer call() throws Exception {
-        String diff = Differ.generate(file1, file2, format);
+    public Integer call() {
+        String diff = null;
+        try {
+            diff = Differ.generate(file1, file2, format);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 1;
+        }
 
         System.out.println(diff);
         return 0;

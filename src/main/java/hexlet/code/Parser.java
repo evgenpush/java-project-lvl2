@@ -8,18 +8,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 class Parser {
+    private static final String json = "json";
+    private static final String yaml = ".yml";
 
-    public static Map<String, Object> parse(Path path) throws Exception  {
-        final String json = "json";
-        final String yaml = ".yml";
-        final int lenExtension = 4;
+    public static Map<String, Object> parse(String content, String ext) throws Exception  {
 
-        String content;
-        String ext = path.toString().substring(path.toString().length() - lenExtension);
-
-        content = Files.readString(path);
         if (ext.equals(json)) {
-
             ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.readValue(content, new TypeReference<Map<String, Object>>() { });
         } else if (ext.equals(yaml)) {
