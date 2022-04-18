@@ -9,20 +9,21 @@ import java.util.List;
 import java.util.Map;
 
 public class Formatter {
-    private static String defaultFormat = "stylish";
-    private static String plainFormat = "plain";
-    private static String jsonFormat = "json";
+    public static final String DEFAULT_FORMAT = "stylish";
+    private static final String PLAIN_FORMAT = "plain";
+    private static final String JSON_FORMAT = "json";
 
     public static String make(List<Map<String, Object>> difData, String format) throws IOException {
 
-        if (format.equals(defaultFormat)) {
-            return StylishFormater.get(difData);
-        } else if (format.equals(plainFormat)) {
-            return PlainFormater.get(difData);
-        } else if (format.equals(jsonFormat)) {
-            return JsonFormater.get(difData);
+        switch (format) {
+            case DEFAULT_FORMAT:
+                return StylishFormater.get(difData);
+            case PLAIN_FORMAT:
+                return PlainFormater.get(difData);
+            case JSON_FORMAT:
+                return JsonFormater.get(difData);
+            default:
+                throw  new IOException("error format");
         }
-
-        return null;
     }
 }

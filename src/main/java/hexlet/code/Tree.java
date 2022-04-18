@@ -22,18 +22,15 @@ public class Tree {
             data.put(Differ.OLD_VALUE, map1.get(key));
             data.put(Differ.NEW_VALUE, map2.get(key));
             String status;
-            if (map1.containsKey(key)) {
-                if (map2.containsKey(key)) {
-                    if (equals(map1.get(key), map2.get(key))) {
-                        status = Differ.UNCHANGED;
-                    } else {
-                        status = Differ.UPDATED;
-                    }
-                } else {
-                    status = Differ.REMOVED;
-                }
-            } else {
+
+            if (!map1.containsKey(key)) {
                 status = Differ.ADDED;
+            } else if (!map2.containsKey(key)) {
+                status = Differ.REMOVED;
+            } else if (equals(map1.get(key), map2.get(key))) {
+                status = Differ.UNCHANGED;
+            } else {
+                status = Differ.UPDATED;
             }
             data.put(Differ.STATUS, status);
             difData.add(data);

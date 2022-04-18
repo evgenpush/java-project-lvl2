@@ -11,13 +11,15 @@ class Parser {
 
     public static Map<String, Object> parse(String content, String ext) throws Exception  {
 
-        if (ext.equals(JSON)) {
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.readValue(content, new TypeReference<Map<String, Object>>() { });
-        } else if (ext.equals(YAML)) {
-            ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-            return mapper.readValue(content, new TypeReference<Map<String, Object>>() { });
+        switch (ext) {
+            case JSON:
+                ObjectMapper objectMapper = new ObjectMapper();
+                return objectMapper.readValue(content, new TypeReference<Map<String, Object>>() { });
+            case YAML:
+                ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+                return mapper.readValue(content, new TypeReference<Map<String, Object>>() { });
+            default:
+                throw new Exception("Error ext");
         }
-        return null;
     }
 }
