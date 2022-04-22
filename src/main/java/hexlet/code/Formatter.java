@@ -13,9 +13,9 @@ public class Formatter {
     private static final String PLAIN_FORMAT = "plain";
     private static final String JSON_FORMAT = "json";
 
-    public static String make(List<Map<String, Object>> difData, String format) throws IOException {
+    public static String format(List<Map<String, Object>> difData, String dataFormat) throws IOException {
 
-        switch (format) {
+        switch (dataFormat) {
             case DEFAULT_FORMAT:
                 return StylishFormater.get(difData);
             case PLAIN_FORMAT:

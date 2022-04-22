@@ -23,23 +23,21 @@ public class Differ {
         return Differ.generate(file1, file2, Formatter.DEFAULT_FORMAT);
     }
 
-    public static String generate(String file1, String file2, String format) throws Exception {
+    public static String generate(String file1, String file2, String typeFormat) throws Exception {
 
         Map<String, Object> map1 = getData(file1);
         Map<String, Object> map2 = getData(file2);
 
         List<Map<String, Object>> difData = Tree.build(map1, map2);
 
-        return Formatter.make(difData, format);
+        return Formatter.format(difData, typeFormat);
     }
 
     public static Map getData(String file) throws Exception {
-        final int lenExtension = 4;
+        int lastDotPosition = file.lastIndexOf(".");
         Path path = Paths.get(file);
-
-        String ext = path.toString().substring(path.toString().length() - lenExtension);
-
+        String dataFormat = path.toString().substring(lastDotPosition + 1);
         String content = Files.readString(path);
-        return Parser.parse(content, ext);
+        return Parser.parse(content, dataFormat);
     }
 }
