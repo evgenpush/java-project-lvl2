@@ -12,48 +12,44 @@ import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DifferTest {
-    private static String resultJson;
-    private static String resultPlain;
-    private static String resultStylish;
+    private static String json;
+    private static String plain;
+    private static String stylish;
+    private final String pathFixtures = "src/test/fixtures/";
+    private final String file1 = "file1";
+    private final String file2 = "file2";
 
     @BeforeAll
     public static void init() {
-        resultJson = "json";
-        resultPlain = "plain";
-        resultStylish = "stylish";
+        json = "json";
+        plain = "plain";
+        stylish = "stylish";
     }
 
-    public String getFile(String file) {
+    public String readFile(String file) throws IOException {
         Path path = Paths.get(file);
-        try {
-            return Files.readString(path);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return Files.readString(path);
+    }
+
+    public String getFixture(String file) throws IOException {
+        System.out.println(pathFixtures + file);
+        return readFile(pathFixtures + file);
     }
 
     @ParameterizedTest
     @ValueSource(strings = {".json", ".yml"})
     void testDiffer(String ext) throws Exception {
-        String path1 = "src/test/resources/file3";
-        String path2 = "src/test/resources/file4";
+        String expectedResult1 = getFixture("expectedStylish.txt");
+        String expectedResult2 = getFixture("expectedPlain.txt");
+        String expectedResult3 = getFixture("expectedJson.txt");
 
-        String result1 = getFile("src/test/resources/resultStylish.txt");
-        String result2 = getFile("src/test/resources/resultPlain.txt");
-        String result3 = getFile("src/test/resources/resultJson.txt");
+        String actualResult1 = Differ.generate(pathFixtures + file1 + ext, pathFixtures + file2 + ext, stylish);
+        assertEquals(expectedResult1, actualResult1);
 
+        String actualResult2 = Differ.generate(pathFixtures + file1 + ext, pathFixtures + file2 + ext, plain);
+        assertEquals(expectedResult2, actualResult2);
 
-        String testResult1 = Differ.generate(path1 + ext, path2 + ext, resultStylish);
-        assertEquals(result1, testResult1);
-
-        String testResult2 = Differ.generate(path1 + ext, path2 + ext, resultPlain);
-        assertEquals(result2, testResult2);
-
-        String testResult3 = Differ.generate(path1 + ext, path2 + ext, resultJson);
-        assertEquals(result3, testResult3);
-
+        String actualResult3 = Differ.generate(pathFixtures + file1 + ext, pathFixtures + file2 + ext, json);
+        assertEquals(expectedResult3, actualResult3);
     }
-
-
 }

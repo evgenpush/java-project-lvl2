@@ -9,6 +9,9 @@ import java.util.concurrent.Callable;
          description = "Compares two configuration files and shows a difference.")
 
 class App implements Callable<Integer> {
+    private static final int SUCCESS_CODE = 0;
+    private static final int ERROR_CODE = 1;
+
 
     @Option(names = {"-f", "--format"}, description = "output format [default: stylish]")
     private String format = "stylish";
@@ -24,10 +27,10 @@ class App implements Callable<Integer> {
         try {
             String diff = Differ.generate(file1, file2, format);
             System.out.println(diff);
-            return 0;
+            return SUCCESS_CODE;
         } catch (Exception e) {
             e.printStackTrace();
-            return 1;
+            return ERROR_CODE;
         }
     }
 
