@@ -1,6 +1,6 @@
 package hexlet.code.formatters;
 
-import hexlet.code.Differ;
+import hexlet.code.Tree;
 
 import java.util.AbstractMap;
 import java.util.Collection;
@@ -14,22 +14,22 @@ public class PlainFormater {
         StringBuilder plainData = new StringBuilder();
 
         for (Map<String, Object> data : difData) {
-            String oldValue = getValue(data.get(Differ.OLD_VALUE));
-            String newValue = getValue(data.get(Differ.NEW_VALUE));
-            String key = (String) data.get(Differ.KEY);
+            String oldValue = getValue(data.get(Tree.OLD_VALUE));
+            String newValue = getValue(data.get(Tree.NEW_VALUE));
+            String key = (String) data.get(Tree.KEY);
 
-            if (data.get(Differ.STATUS).equals(Differ.ADDED)) {
+            if (data.get(Tree.STATUS).equals(Tree.ADDED)) {
                 plainData.append("Property '");
                 plainData.append(key);
                 plainData.append("' was added with value: ");
                 plainData.append(newValue);
                 plainData.append("\n");
-            } else if (data.get("status").equals(Differ.REMOVED)) {
+            } else if (data.get("status").equals(Tree.REMOVED)) {
                 plainData.append("Property '");
                 plainData.append(key);
                 plainData.append("' was removed");
                 plainData.append("\n");
-            } else if (data.get("status").equals(Differ.UPDATED)) {
+            } else if (data.get("status").equals(Tree.UPDATED)) {
                 plainData.append("Property '");
                 plainData.append(key);
                 plainData.append("' was updated. From ");

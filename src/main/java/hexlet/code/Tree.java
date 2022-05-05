@@ -8,6 +8,14 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 public class Tree {
+    public static final String UNCHANGED = "unchanged";
+    public static final String ADDED = "added";
+    public static final String REMOVED = "removed";
+    public static final String UPDATED = "updated";
+    public static final String OLD_VALUE = "oldValue";
+    public static final String NEW_VALUE = "newValue";
+    public static final String STATUS = "status";
+    public static final String KEY = "key";
 
 
     public static List<Map<String, Object>> build(Map<String, Object> map1, Map<String, Object> map2) {
@@ -18,21 +26,21 @@ public class Tree {
 
         for (String key : keys) {
             Map<String, Object> data = new HashMap<>();
-            data.put(Differ.KEY, key);
-            data.put(Differ.OLD_VALUE, map1.get(key));
-            data.put(Differ.NEW_VALUE, map2.get(key));
+            data.put(KEY, key);
+            data.put(OLD_VALUE, map1.get(key));
+            data.put(NEW_VALUE, map2.get(key));
             String status;
 
             if (!map1.containsKey(key)) {
-                status = Differ.ADDED;
+                status = ADDED;
             } else if (!map2.containsKey(key)) {
-                status = Differ.REMOVED;
+                status = REMOVED;
             } else if (equals(map1.get(key), map2.get(key))) {
-                status = Differ.UNCHANGED;
+                status = UNCHANGED;
             } else {
-                status = Differ.UPDATED;
+                status = UPDATED;
             }
-            data.put(Differ.STATUS, status);
+            data.put(STATUS, status);
             difData.add(data);
         }
         return difData;
